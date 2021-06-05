@@ -6,7 +6,7 @@ c. Employee. Reports to Manager.
 
 
 ## To Do
-Implement a corporate directory to find the closest common Manager (aka farthest from the CEO) between two employees. <br/>
+Implement a corporate directory to find the closest common Manager (aka closest to the level of employess) between two employees. <br/>
 Assumption: All employees eventually report up to the CEO.
 
 ### Guidelines
@@ -19,4 +19,3 @@ Flexible on wow the program takes its input and produces its output.<br/>
 Remaining<br/>
 a. load employees from CSV for example on init
 b. get employee nodes based on passed params
-
