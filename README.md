@@ -6,7 +6,7 @@ c. Employee. Reports to Manager.
 
 
 ## To Do
-Implement a corporate directory to find the closest common Manager (aka closest to the level of employess) between two employees. <br/>
+Implement a corporate directory to find the closest common Manager (aka closest to the level of employees) between two employees. <br/>
 Assumption: All employees eventually report up to the CEO.
 
 ### Guidelines
