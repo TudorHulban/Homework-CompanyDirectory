@@ -11,14 +11,14 @@ func TestLineage(t *testing.T) {
 	company := NewCompany()
 
 	_, errNil := company.FirstManager(nil, nil)
-	require.Equal(t, errNil, errNilEmployee)
+	require.ErrorIs(t, errNil, errNoEmployee)
 
 	ceo := &Employee{
 		FullName: "Monica",
 	}
 
 	_, errZero := company.FirstManager(nil, nil)
-	require.NotNil(t, errZero)
+	require.Error(t, errZero)
 
 	require.Nil(t, company.Add(ceo), "adding root employee")
 
@@ -29,7 +29,7 @@ func TestLineage(t *testing.T) {
 		FullName: "Marcus",
 	}
 
-	require.Equal(t, company.Add(m1), errNilManager)
+	require.Equal(t, company.Add(m1), errNoManager)
 
 	m1.Manager = ceo
 
@@ -40,40 +40,40 @@ func TestLineage(t *testing.T) {
 		Manager:  m1,
 		FullName: "John Doe",
 	}
-	assert.Nil(t,company.Add(w1))
-	
+	assert.NoError(t, company.Add(w1))
+
 	w2 := &Employee{
 		Manager:  m1,
 		FullName: "Bassem Al Raed",
 	}
-	assert.Nil(t, company.Add(w2))	
+	assert.NoError(t, company.Add(w2))
 
 	m2 := &Employee{
 		Manager:  ceo,
 		FullName: "Andre",
 	}
-		assert.Nil(t, company.Add(m2))	
+	assert.NoError(t, company.Add(m2))
 
 	w3 := &Employee{
 		Manager:  m2,
 		FullName: "Maurice Ravel",
 	}
 
-	assert.Nil(t, company.Add(w3))	
+	assert.NoError(t, company.Add(w3))
 
 	m3 := &Employee{
 		Manager:  m1,
 		FullName: "Constantin",
 	}
 
-	assert.Nil(t, company.Add(m3))	
+	assert.NoError(t, company.Add(m3))
 
 	w4 := &Employee{
 		Manager:  m2,
 		FullName: "Elena",
 	}
-	
-	assert.Nil(t, company.Add(w4))	
+
+	assert.NoError(t, company.Add(w4))
 
 	// testing lineage
 	cases := []struct {
@@ -89,10 +89,12 @@ func TestLineage(t *testing.T) {
 	}
 
 	for _, tc := range cases {
-		firstManager, err := company.FirstManager(tc.a, tc.b)
+		t.Run(tc.description, func(t *testing.T) {
+			firstManager, err := company.FirstManager(tc.a, tc.b)
 
-		assert.Equal(t, tc.expectError, err != nil)
-		assert.Equal(t, tc.expected, firstManager)
+			assert.Equal(t, tc.expectError, err != nil)
+			assert.Equal(t, tc.expected, firstManager)
+		})
 	}
 }
 

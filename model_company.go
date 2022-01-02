@@ -17,8 +17,8 @@ type Company struct {
 }
 
 var (
-	errNilEmployee = errors.New("nil employee(s)")
-	errNilManager  = errors.New("nil manager")
+	errNoEmployee = errors.New("no employee(s)")
+	errNoManager  = errors.New("no manager")
 )
 
 const newLine = " \n"
@@ -32,7 +32,7 @@ func NewCompany() *Company {
 // Add Method should add CEO first.
 func (c *Company) Add(employee *Employee) error {
 	if employee.Manager == nil && len(c.team) != 0 {
-		return errNilManager
+		return errNoManager
 	}
 
 	c.team = append(c.team, employee)
@@ -58,7 +58,7 @@ func (c *Company) Hierarchy(empl *Employee) []*Employee {
 // FirstLineage Method to return first common manager of the two passed employees.
 func (c *Company) FirstManager(e1, e2 *Employee) (*Employee, error) {
 	if e1 == nil || e2 == nil {
-		return nil, errNilEmployee
+		return nil, errNoEmployee
 	}
 
 	if len(c.team) == 0 {
